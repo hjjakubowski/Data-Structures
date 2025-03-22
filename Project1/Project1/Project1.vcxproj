@@ -127,7 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="arraylist.cpp" />
     <ClCompile Include="Project1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="arraylist.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

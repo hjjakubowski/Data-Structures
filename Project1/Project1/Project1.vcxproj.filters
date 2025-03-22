@@ -18,5 +18,13 @@
     <ClCompile Include="Project1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="arraylist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="arraylist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
