@@ -6,7 +6,7 @@ During this course, we will complete three mini-projects.
 The first project focuses on implementing various types of lists for data management. 
 During the project, we will implement:
 
-- Dynamic Array (Array List)
+- Dynamic Array 
 - Singly Linked List
 - Doubly Linked List
 
