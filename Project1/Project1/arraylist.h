@@ -18,7 +18,11 @@ public:
     int getCapacity() const;
 
     void push_back(int item);
+    void push_front(int item);
+    void push_index(int item, int index);
     void pop_back();
+    void pop_front();
+    void pop_index(int index);
     void display() const;
 };
 

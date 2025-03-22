@@ -38,8 +38,44 @@ void Arraylist::push_back(int item) {
     size++;
 }
 
+void Arraylist::push_front(int item) {
+    increaseSize();
+    for (int i = size; i > 0; i--) {
+        arr[i] = arr[i-1];
+    }
+    arr[0] = item;
+    size++;
+}
+
+void Arraylist::push_index(int item, int index) {
+    increaseSize();
+    for (int i = size; i >= size-index; i--) {
+        arr[i] = arr[i - 1];
+    }
+    arr[index] = item;
+    size++;
+}
+
 void Arraylist::pop_back() {
     if (size > 0) {
+        size--;
+    }
+}
+
+void Arraylist::pop_front() {
+    if (size > 0) {
+        for (int i = 1; i < size; i++) {
+            arr[i-1] = arr[i];
+        }
+        size--;
+    }
+}
+
+void Arraylist::pop_index(int index) {
+    if (size > 0) {
+        for (int i = index; i < size; i++) {
+            arr[i] = arr[i+1];
+        }
         size--;
     }
 }
