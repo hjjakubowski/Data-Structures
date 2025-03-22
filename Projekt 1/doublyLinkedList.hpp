@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-typedef string Elem; 
+template <typename Elem>
 class DNode { 
 private:
 	Elem elem; 
@@ -14,7 +14,7 @@ private:
 	friend class DLinkedList; 
 };
 
-
+template <typename Elem>
 class DLinkedList { 
 public:
 	DLinkedList(); 
@@ -29,10 +29,11 @@ public:
 	int getSize();
 	int Find(const Elem& e);
 private: 
-	DNode* header; 
-	DNode* trailer;
-protected: 
-	void add(DNode* v, const Elem& e); 
-	void remove(DNode* v); 
+	DNode<Elem>* header; 
+	DNode<Elem>* trailer;
+	void add(DNode<Elem>* v, const Elem& e);
+	void remove(DNode<Elem>* v);
+
+
 };
 #endif 
