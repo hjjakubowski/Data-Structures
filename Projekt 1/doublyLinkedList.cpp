@@ -63,3 +63,30 @@ void DLinkedList::removeBack()
 	remove(trailer− > prev);
 }
 
+int DLinkedList::getSize()
+{
+	int size = 0;
+	DNode* temp = header;
+	while (temp− > next != trailer)
+	{
+		size++;
+		temp = temp− > next;
+	}
+	return size;
+}
+
+int DLinkedList::Find(const Elem& e)
+{
+	int index = 0;
+	DNode* temp = header;
+	while (temp− > next != trailer)
+	{
+		if (temp− > elem == e)
+		{
+			return index;
+		}
+		index++;
+		temp = temp− > next;
+	}
+	return −1;
+}

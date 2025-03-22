@@ -1,4 +1,5 @@
-﻿#ifndef DOUBLYLINKEDLIST_HPP
+﻿#pragma once
+#ifndef DOUBLYLINKEDLIST_HPP
 #define DOUBLYLINKEDLIST_HPP
 
 #include <iostream>
@@ -25,6 +26,8 @@ public:
 	void addBack(const Elem& e); 
 	void removeFront(); 
 	void removeBack(); 
+	int getSize();
+	int Find(const Elem& e);
 private: 
 	DNode* header; 
 	DNode* trailer;
