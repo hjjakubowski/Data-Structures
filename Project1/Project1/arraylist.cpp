@@ -80,6 +80,17 @@ void Arraylist::pop_index(int index) {
     }
 }
 
+int Arraylist::find(int item) {
+    int index;
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == item) {
+            index = i;
+            return index;
+        }
+    }
+    return -1;
+}
+
 void Arraylist::display() const {
     std::cout << "ArrayList: ";
     for (int i = 0; i < size; i++) {

@@ -23,6 +23,8 @@ public:
     void pop_back();
     void pop_front();
     void pop_index(int index);
+
+    int find(int item);
     void display() const;
 };
 
