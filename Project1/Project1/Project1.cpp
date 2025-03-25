@@ -11,6 +11,7 @@ int main()
     list.push_front(15);
     list.push_index(16, 1);
     list.pop_index(2);
+    cout << "index " << list.find(3) << endl;
     for (int i = 0; i < list.getSize(); i++) {
         cout << list[i] << endl;
     }

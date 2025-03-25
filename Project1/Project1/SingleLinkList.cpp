@@ -82,6 +82,20 @@ void Singlelist::pop_index(int index) {
     size--;
 }
 
+int Singlelist::find(int item) {
+    Node* current = head;
+    int index = 0;
+    while (current) {
+        if (current->item == item) {
+            return index;
+            break;
+        }
+        current = current->next;
+        index++;
+    }
+    return -1;
+}
+
 int& Singlelist::operator[](const int index) {
     int counter = 0;
     Node* current = head;

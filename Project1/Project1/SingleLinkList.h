@@ -20,5 +20,6 @@ public:
     void pop_front();
     void pop_index(int index);
 
+    int find(int item);
     int& operator[](const int index);
 };
