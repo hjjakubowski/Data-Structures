@@ -128,11 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="arraylist.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="Project1.cpp" />
     <ClCompile Include="SingleLinkList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="arraylist.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="SingleLinkList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

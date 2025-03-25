@@ -1,25 +1,20 @@
 #include <iostream>
 #include "arraylist.h"
-
+#include "SingleLinkList.h"
 using namespace std;
 int main()
 {
-    Arraylist arr(2);
+    Singlelist list;
+    for (int i = 0; i < 10; i++) {
+        list.push_back(i);
+    }
+    list.push_front(15);
+    list.push_index(16, 1);
+    list.pop_index(2);
+    for (int i = 0; i < list.getSize(); i++) {
+        cout << list[i] << endl;
+    }
 
-    for (int i = 0; i < 4; i++) {
-        arr.push_back(i);
-    }
-    arr.push_front(6);
-    /*for (size_t i = 0; i < 2500; i++) {
-        arr.pop_back();
-    }*/
-    int item_index = arr.find(9);
-    if (item_index != -1) {
-        cout << "Index of your item : " << item_index << endl;
-    }
-    else {
-        cout << "There is no such item included in the given list" << endl;
-    }
-    arr.display();
+    cout << "Size  " << list.getSize();
 }
 

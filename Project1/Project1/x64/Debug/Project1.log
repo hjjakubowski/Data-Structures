@@ -1,2 +1,3 @@
-﻿  Project1.cpp
+﻿  SingleLinkList.cpp
+C:\My\Pwr\4_sem\Struktury danych\Project1\Project1\SingleLinkList.cpp(95,1): warning C4715: 'Singlelist::operator[]': not all control paths return a value
   Project1.vcxproj -> C:\My\Pwr\4_sem\Struktury danych\Project1\x64\Debug\Project1.exe
