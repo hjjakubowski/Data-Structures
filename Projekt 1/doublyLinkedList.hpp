@@ -6,33 +6,31 @@
 using namespace std;
 
 template <typename Elem>
-class DNode { 
-private:
-	Elem elem; 
-	DNode* prev; 
-	DNode* next; 
-	friend class DLinkedList; 
-};
-
-template <typename Elem>
 class DLinkedList { 
 public:
 	DLinkedList(); 
-	˜DLinkedList(); 
+	~DLinkedList(); 
+
 	bool empty() const; 
-	const Elem& front() const; 
-	const Elem& back() const; 
+	int getSize();
 	void addFront(const Elem& e);
 	void addBack(const Elem& e); 
+	void add(const Elem&, int pos);
 	void removeFront(); 
 	void removeBack(); 
-	int getSize();
+	void remove(int pos);
 	int Find(const Elem& e);
+
 private: 
-	DNode<Elem>* header; 
-	DNode<Elem>* trailer;
-	void add(DNode<Elem>* v, const Elem& e);
-	void remove(DNode<Elem>* v);
+	
+	struct DNode { 
+		Elem elem; 
+		DNode* prev; 
+		DNode* next; 
+	};
+
+	DNode* header;
+	DNode* trailer;
 
 
 };
