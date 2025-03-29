@@ -20,9 +20,6 @@ public:
 	void remove(int pos);
     int Find(const Elem& e);
 
-    
-    
-
 private:
     struct DNode {
         Elem elem;
@@ -44,7 +41,7 @@ DLinkedList<Elem>::DLinkedList() {
 
 template <typename Elem>
 DLinkedList<Elem>::~DLinkedList() {
-    while (!empty()) removeFront();
+    while(!empty()) removeFront();
     delete header;
     delete trailer;
 }
@@ -87,24 +84,24 @@ void DLinkedList<Elem>::addBack(const Elem& e) {
 
 template <typename Elem>
 void DLinkedList<Elem>::removeFront() {
-    if (empty()) throw std::runtime_error("Empty list!");
-    if (!empty()) {
+    if(!empty()){
         DNode* oldNode = header->next;
         header->next = oldNode->next;
         oldNode->next->prev = header;
         delete oldNode;
-    }
+	}
+	else throw std::runtime_error("Empty list!");
 }
 
 template <typename Elem>
 void DLinkedList<Elem>::removeBack() {
-    if (empty()) throw std::runtime_error("Empty list!");
-    if (!empty()) {
+    if(!empty()){
         DNode* oldNode = trailer->prev;
         trailer->prev = oldNode->prev;
         oldNode->prev->next = trailer;
         delete oldNode;
-    }
+	}
+	else throw std::runtime_error("Empty list!");
 }
 
 template <typename Elem>
