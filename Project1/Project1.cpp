@@ -93,8 +93,7 @@ void performTest(DLinkedList<int>& list, const string& operation, const string& 
 
 int main() {
     string datasets[] = {
-        "dataset_5000.txt", "dataset_10000.txt", "dataset_50000.txt", "dataset_100000.txt",
-        "dataset_200000.txt", "dataset_300000.txt", "dataset_400000.txt", "dataset_500000.txt",
+        "dataset_5000.txt", "dataset_100000.txt", "dataset_200000.txt", "dataset_300000.txt", "dataset_400000.txt", "dataset_500000.txt",
         "dataset_600000.txt", "dataset_700000.txt", "dataset_800000.txt","dataset_900000.txt", "dataset_1000000.txt"
     };
     while (true) {
@@ -141,7 +140,7 @@ int main() {
         default: cout << "Nieprawidlowy wybor!" << endl; continue;
         }
         
-        for (int i = 0; i < 13; ++i) {
+        for (int i = 0; i < 11; ++i) {
             string datasetName = datasets[i];
             DLinkedList<int> list;
             loadDatasetToList(datasetName, list);
