@@ -1,5 +1,4 @@
-﻿#pragma once
-#ifndef DOUBLYLINKEDLIST_HPP
+﻿#ifndef DOUBLYLINKEDLIST_HPP
 #define DOUBLYLINKEDLIST_HPP
 
 #include <iostream>
