@@ -1,9 +1,9 @@
 #pragma once
-
+template<typename T>
 class Node {
 public:
-    int item;
+    T item;
     Node* next;
 
-    Node(int item, Node* next = nullptr);
+    Node(T item, Node* next = nullptr);
 };
