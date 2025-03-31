@@ -1,5 +1,4 @@
-﻿#ifndef DOUBLYLINKEDLIST_HPP
-#define DOUBLYLINKEDLIST_HPP
+﻿#pragma once
 
 #include <iostream>
 
@@ -149,4 +148,4 @@ int DLinkedList<Elem>::Find(const Elem& e) {
     }
     return -1;
 }
-#endif
+
