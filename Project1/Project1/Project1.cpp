@@ -9,7 +9,7 @@
 using namespace std;
 using namespace std::chrono;
 
-// Function to load dataset into structures
+
 template <typename ListType>
 void loadDatasetToList(const string& fileName, ListType& list) {
     ifstream inFile(fileName);
@@ -19,13 +19,12 @@ void loadDatasetToList(const string& fileName, ListType& list) {
     }
 
     int number;
-    while (inFile >> number) {  // Now correctly reads numbers line by line
+    while (inFile >> number) {  
         list.addBack(number);
     }
     inFile.close();
 }
 
-// Function to test operations on structures
 template <typename ListType>
 void performTest(ListType& list, const string& operation, const string& datasetName, int element = 0, int position = 0) {
     auto start = high_resolution_clock::now();

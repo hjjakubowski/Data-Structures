@@ -19,16 +19,16 @@
       "RelativeMoniker": "D:0:0:{F2D9C39A-B33F-4B05-A314-1036754D8BE4}|Project1\\Project1.vcxproj|solutionrelative:Project1\\SingleLinkList.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2D9C39A-B33F-4B05-A314-1036754D8BE4}|Project1\\Project1.vcxproj|C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\arraylist.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{F2D9C39A-B33F-4B05-A314-1036754D8BE4}|Project1\\Project1.vcxproj|solutionrelative:Project1\\arraylist.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F2D9C39A-B33F-4B05-A314-1036754D8BE4}|Project1\\Project1.vcxproj|C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\Node.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{F2D9C39A-B33F-4B05-A314-1036754D8BE4}|Project1\\Project1.vcxproj|solutionrelative:Project1\\Node.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2D9C39A-B33F-4B05-A314-1036754D8BE4}|Project1\\Project1.vcxproj|C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\Node.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{F2D9C39A-B33F-4B05-A314-1036754D8BE4}|Project1\\Project1.vcxproj|solutionrelative:Project1\\Node.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2D9C39A-B33F-4B05-A314-1036754D8BE4}|Project1\\Project1.vcxproj|C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\arraylist.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F2D9C39A-B33F-4B05-A314-1036754D8BE4}|Project1\\Project1.vcxproj|solutionrelative:Project1\\arraylist.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,35 +42,33 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "arraylist.cpp",
               "DocumentMoniker": "C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\arraylist.cpp",
               "RelativeDocumentMoniker": "Project1\\arraylist.cpp",
               "ToolTip": "C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\arraylist.cpp",
               "RelativeToolTip": "Project1\\arraylist.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-22T11:32:17.699Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "Node.h",
               "DocumentMoniker": "C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\Node.h",
               "RelativeDocumentMoniker": "Project1\\Node.h",
               "ToolTip": "C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\Node.h",
               "RelativeToolTip": "Project1\\Node.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-03-22T14:38:49.733Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "Node.cpp",
               "DocumentMoniker": "C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\Node.cpp",
               "RelativeDocumentMoniker": "Project1\\Node.cpp",
@@ -79,8 +77,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-22T14:55:37.422Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -102,10 +99,9 @@
               "RelativeDocumentMoniker": "Project1\\SingleLinkList.h",
               "ToolTip": "C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\SingleLinkList.h",
               "RelativeToolTip": "Project1\\SingleLinkList.h",
-              "ViewState": "AgIAAIQAAAAAAAAAAAAAAHsAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAAAGwAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-22T13:14:25.168Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-22T13:14:25.168Z"
             },
             {
               "$type": "Document",
@@ -117,8 +113,7 @@
               "RelativeToolTip": "Project1\\SingleLinkList.cpp",
               "ViewState": "AgIAAC4AAAAAAAAAAAAgwDUAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-03-22T14:38:58.104Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-22T14:38:58.104Z"
             },
             {
               "$type": "Document",
@@ -128,10 +123,9 @@
               "RelativeDocumentMoniker": "Project1\\arraylist.h",
               "ToolTip": "C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\arraylist.h",
               "RelativeToolTip": "Project1\\arraylist.h",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAIwJMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAkAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-22T11:32:14.537Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-22T11:32:14.537Z"
             },
             {
               "$type": "Document",
@@ -139,9 +133,9 @@
               "Title": "Project1.cpp",
               "DocumentMoniker": "C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\Project1.cpp",
               "RelativeDocumentMoniker": "Project1\\Project1.cpp",
-              "ToolTip": "C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\Project1.cpp*",
-              "RelativeToolTip": "Project1\\Project1.cpp*",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAAAHoAAAAJAAAAAAAAAA==",
+              "ToolTip": "C:\\My\\Pwr\\4_sem\\Struktury danych\\Project1\\Project1\\Project1.cpp",
+              "RelativeToolTip": "Project1\\Project1.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-22T11:21:18.155Z",
               "EditorCaption": ""
