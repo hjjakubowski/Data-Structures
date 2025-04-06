@@ -1,32 +1,44 @@
-﻿#include <iostream>
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <chrono>
 #include <string>
-#include "arraylist.h"
-#include "SingleLinkList.h"
+#include "arrayList.hpp"
+#include "SingleLinkList.hpp"
 
-using namespace std;
 using namespace std::chrono;
 
-
 template <typename ListType>
-void loadDatasetToList(const string& fileName, ListType& list) {
-    ifstream inFile(fileName);
+void loadDataset(const std::string& fileName, ListType& list) {
+    std::ifstream inFile(fileName);
     if (!inFile) {
-        cerr << "Nie mozna otworzyc pliku do odczytu!" << endl;
+        std::cerr << "Nie mozna otworzyc pliku do odczytu!" << std::endl;
         return;
     }
 
-    int number;
-    while (inFile >> number) {  
-        list.addBack(number);
+    std::string line;
+    while (getline(inFile, line, ',')) {
+        std::stringstream ss(line);
+        int number;
+        if (ss >> number) {
+            if constexpr (std::is_same_v<ListType, Singlelist<int>>) {
+                list.addFront(number);
+            }
+            else if constexpr (std::is_same_v<ListType, Arraylist<int>>) {
+                list.addBack(number);
+            }
+            else {
+                list.addBack(number);
+            }
+        }
     }
+
     inFile.close();
 }
 
+
 template <typename ListType>
-void performTest(ListType& list, const string& operation, const string& datasetName, int element = 0, int position = 0) {
+void performTest(ListType& list, const std::string& operation, const std::string& datasetName, int element = 0, int position = 0) {
     auto start = high_resolution_clock::now();
 
     if (operation == "addFront") {
@@ -51,79 +63,153 @@ void performTest(ListType& list, const string& operation, const string& datasetN
         list.Find(element);
     }
 
+
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<nanoseconds>(end - start);
-    cout << "Czas wykonania operacji " << operation << " na zbiorze " << datasetName << ": " << duration.count() << " ns" << endl;
+    std::cout << "Czas wykonania operacji " << operation << " na zbiorze " << datasetName << ": " << duration.count() << " ns" << std::endl;
 }
 
-int main() {
-    string datasets[] = {
-        "dataset_5000.txt", "dataset_100000.txt", "dataset_200000.txt",
-        "dataset_300000.txt", "dataset_400000.txt", "dataset_500000.txt",
-        "dataset_600000.txt", "dataset_700000.txt", "dataset_800000.txt",
-        "dataset_900000.txt", "dataset_1000000.txt"
+template <typename ListType>
+void autoPT(const std::string& listName, int element = 42, int position = 3) {
+    std::string operation[] = { "addFront", "addBack", "add", "removeFront", "removeBack", "remove", "find" };
+
+    std::string datasets[] = {
+        "dataset_5000.txt", "dataset_100000.txt", "dataset_200000.txt", "dataset_300000.txt", "dataset_400000.txt", "dataset_500000.txt",
+        "dataset_600000.txt", "dataset_700000.txt", "dataset_800000.txt", "dataset_900000.txt", "dataset_1000000.txt"
     };
 
+    std::cout << "--- " << listName << " ---" << std::endl;
+
+    for (int i = 0; i < 7; i++) {
+        std::cout << "=== Operation: " << operation[i] << " ===" << std::endl;
+        for (const std::string& datasetName : datasets) {
+            double totalDuration = 0;
+
+            for (int j = 0; j < 10; j++) {
+                ListType list;
+                loadDataset(datasetName, list);
+
+                auto start = high_resolution_clock::now();
+
+                if (operation[i] == "addFront") {
+                    list.addFront(element);
+                }
+                else if (operation[i] == "addBack") {
+                    list.addBack(element);
+                }
+                else if (operation[i] == "add") {
+                    list.add(element, position);
+                }
+                else if (operation[i] == "removeFront") {
+                    list.removeFront();
+                }
+                else if (operation[i] == "removeBack") {
+                    list.removeBack();
+                }
+                else if (operation[i] == "remove") {
+                    list.remove(position);
+                }
+                else if (operation[i] == "find") {
+                    list.Find(element);
+                }
+
+                auto end = high_resolution_clock::now();
+                totalDuration += duration_cast<nanoseconds>(end - start).count();
+            }
+
+            std::cout << "Dataset: " << datasetName << " | Avg time: " << totalDuration / 10 << " ns" << std::endl;
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << "==============================" << std::endl;
+}
+
+
+
+int main() {
+    std::string datasets[] = {
+        "dataset_5000.txt", "dataset_100000.txt", "dataset_200000.txt", "dataset_300000.txt", "dataset_400000.txt", "dataset_500000.txt",
+        "dataset_600000.txt", "dataset_700000.txt", "dataset_800000.txt","dataset_900000.txt", "dataset_1000000.txt"
+    };
+
+    autoPT<Arraylist<int>>("Arraylist");
+    autoPT<Singlelist<int>>("Singlelist");
+    //runAutoTest<Doublelist<int>>(dataset, "Doublelist");
+
+    std::cout << "==============================" << std::endl;
+
+
+
+
     while (true) {
-        cout << "Wybierz strukture danych do testowania:" << endl;
-        cout << "1. Tablica dynamiczna" << endl;
-        cout << "2. Lista jednokierunkowa" << endl;
-        cout << "3. Lista dwukierunkowa" << endl;
+        std::cout << "Wybierz strukture danych do testowania:" << std::endl;
+        std::cout << "1. Tablica dynamiczna" << std::endl;
+        std::cout << "2. Lista jednokierunkowa" << std::endl;
+        std::cout << "3. Lista dwukierunkowa" << std::endl;
         int structureChoice;
-        cin >> structureChoice;
+        std::cin >> structureChoice;
 
-        cout << "Wybierz rodzaj testu:" << endl;
-        cout << "1. Dodanie elementu na poczatek" << endl;
-        cout << "2. Dodanie elementu na koniec" << endl;
-        cout << "3. Dodanie elementu w dowolnym miejscu" << endl;
-        cout << "4. Usuniecie poczatkowego elementu" << endl;
-        cout << "5. Usuniecie koncowego elementu" << endl;
-        cout << "6. Usuniecie elementu z dowolnej pozycji" << endl;
-        cout << "7. Znalezienie podanego przez uzytkownika elementu" << endl;
+        std::cout << "Wybierz rodzaj testu:" << std::endl;
+        std::cout << "1. Dodanie elementu na poczatek" << std::endl;
+        std::cout << "2. Dodanie elementu na koniec" << std::endl;
+        std::cout << "3. Dodanie elementu w dowolnym miejscu" << std::endl;
+        std::cout << "4. Usuniecie poczatkowego elementu" << std::endl;
+        std::cout << "5. Usuniecie koncowego elementu" << std::endl;
+        std::cout << "6. Usuniecie elementu z dowolnej pozycji" << std::endl;
+        std::cout << "7. Znalezienie podanego przez uzytkownika elementu" << std::endl;
         int testChoice;
-        cin >> testChoice;
+        std::cin >> testChoice;
 
-        string operation;
-        int element = 0, position = 0;
+        std::string operation;
+        int element = 0;
+        int position = 0;
         switch (testChoice) {
         case 1: operation = "addFront"; break;
         case 2: operation = "addBack"; break;
         case 3: operation = "add";
-            cout << "Podaj element do dodania: "; cin >> element;
-            cout << "Podaj pozycje: "; cin >> position;
+            std::cout << "Podaj element do dodania: ";
+            std::cin >> element;
+            std::cout << "Podaj pozycje: ";
+            std::cin >> position;
             break;
         case 4: operation = "removeFront"; break;
         case 5: operation = "removeBack"; break;
         case 6: operation = "remove";
-            cout << "Podaj pozycje: "; cin >> position;
+            std::cout << "Podaj pozycje: ";
+            std::cin >> position;
             break;
         case 7: operation = "find";
-            cout << "Podaj element do znalezienia: "; cin >> element;
+            std::cout << "Podaj element do znalezienia: ";
+            std::cin >> element;
             break;
-        default:
-            cout << "Nieprawidlowy wybor!" << endl;
-            continue;
+        default: std::cout << "Nieprawidlowy wybor!" << std::endl; break;
         }
 
-        for (const string& datasetName : datasets) {
+        for (const std::string& datasetName : datasets) {
+
             if (structureChoice == 1) {
                 Arraylist<int> list;
-                loadDatasetToList(datasetName, list);
+                loadDataset(datasetName, list);
                 performTest(list, operation, datasetName, element, position);
+
             }
             else if (structureChoice == 2) {
                 Singlelist<int> list;
-                loadDatasetToList(datasetName, list);
+                loadDataset(datasetName, list);
                 performTest(list, operation, datasetName, element, position);
+
             }
             else {
-                cout << "Nieprawidlowy wybor struktury danych!" << endl;
+                std::cout << "Nieprawidlowy wybor!" << std::endl;
+                break;
             }
+
         }
 
-        cout << "Czy chcesz wykonac kolejne testy? (t/n): ";
+        std::cout << "Czy chcesz wykonac kolejne testy? (t/n): ";
         char cont;
-        cin >> cont;
+        std::cin >> cont;
         if (cont == 'n' || cont == 'N') {
             break;
         }
