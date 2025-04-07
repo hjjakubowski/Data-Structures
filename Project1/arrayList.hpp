@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-using namespace std;
+#include <stdexcept>
 
 template <typename T>
 class Arraylist {
@@ -89,7 +89,7 @@ void Arraylist<T>::addFront(T item) {
 
 template <typename T>
 void Arraylist<T>::add(T item, int index) {
-    if (index < 0 || index > size) return; // Check for invalid index
+    if (index < 0 || index > size) return; 
     increaseSize();
     for (int i = size; i > index; i--) {
         arr[i] = arr[i - 1];
@@ -117,7 +117,7 @@ void Arraylist<T>::removeFront() {
 
 template <typename T>
 void Arraylist<T>::remove(int index) {
-    if (index < 0 || index >= size) return; // Check for invalid index
+    if (index < 0 || index >= size) return; 
     if (size > 0) {
         for (int i = index; i < size - 1; i++) {
             arr[i] = arr[i + 1];
