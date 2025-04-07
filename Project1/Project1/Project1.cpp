@@ -70,7 +70,7 @@ void performTest(ListType& list, const std::string& operation, const std::string
 }
 
 template <typename ListType>
-void autoPT(const std::string& listName, int element = 42, int position = 3) {
+void autoPT(const std::string& listName, int element = 43) {
     std::string operation[] = { "addFront", "addBack", "add", "removeFront", "removeBack", "remove", "find" };
 
     std::string datasets[] = {
@@ -79,15 +79,18 @@ void autoPT(const std::string& listName, int element = 42, int position = 3) {
     };
 
     std::cout << "--- " << listName << " ---" << std::endl;
-
-    for (int i = 0; i < 7; i++) {
+    int position = 0;
+    for (int i = 2; i < 7; i++) {
         std::cout << "=== Operation: " << operation[i] << " ===" << std::endl;
-        for (const std::string& datasetName : datasets) {
+        for (int k = 0; k < 10; k++) {
             double totalDuration = 0;
+            if (k == 0) { position = 4999; }
+            else { position = 99999 + (k - 1) * 100000; }
+            std::cout << position << std::endl;
 
             for (int j = 0; j < 10; j++) {
                 ListType list;
-                loadDataset(datasetName, list);
+                loadDataset(datasets[k], list);
 
                 auto start = high_resolution_clock::now();
 
@@ -116,10 +119,12 @@ void autoPT(const std::string& listName, int element = 42, int position = 3) {
                 auto end = high_resolution_clock::now();
                 totalDuration += duration_cast<nanoseconds>(end - start).count();
             }
-
-            std::cout << "Dataset: " << datasetName << " | Avg time: " << totalDuration / 10 << " ns" << std::endl;
+            
+            
+            std::cout <<position<< std::endl;
+            std::cout << "Dataset: " << datasets[k] << " | Avg time: " << totalDuration / 10 << " ns" << std::endl;
         }
-        std::cout << std::endl;
+        
     }
 
     std::cout << "==============================" << std::endl;
@@ -133,7 +138,7 @@ int main() {
         "dataset_600000.txt", "dataset_700000.txt", "dataset_800000.txt","dataset_900000.txt", "dataset_1000000.txt"
     };
 
-    autoPT<Arraylist<int>>("Arraylist");
+    //autoPT<Arraylist<int>>("Arraylist");
     autoPT<Singlelist<int>>("Singlelist");
     //runAutoTest<Doublelist<int>>(dataset, "Doublelist");
 
