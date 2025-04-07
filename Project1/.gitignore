@@ -1,0 +1,23 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.db
+
+# Build outputs
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.log
+
+# CMake or other temp folders
+CMakeFiles/
+CMakeCache.txt
+build/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
