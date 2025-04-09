@@ -66,20 +66,20 @@ template <typename Elem>
 void DLinkedList<Elem>::addFront(const Elem& e) {
     DNode* newNode = new DNode;
     newNode->elem = e;
-    newNode->next = header->next;
-    newNode->prev = header;
-    header->next->prev = newNode;
-    header->next = newNode;
+    newNode->next = header->next;   // Set newNode's next to the header next
+    newNode->prev = header;         // Set newNode's prev to header
+    header->next->prev = newNode;   // Set the previous pointer of the node that was after header to point to newNode.
+    header->next = newNode;         // Set header next to newNode
 }
 
 template <typename Elem>
 void DLinkedList<Elem>::addBack(const Elem& e) {
     DNode* newNode = new DNode;
     newNode->elem = e;
-    newNode->prev = trailer->prev;
-    newNode->next = trailer;
-    trailer->prev->next = newNode;
-    trailer->prev = newNode;
+    newNode->prev = trailer->prev;  // Set newNode's prev to where the trailer prev pointed before
+    newNode->next = trailer;        // Set newNode's next to trailer
+    trailer->prev->next = newNode;  // Set the next pointer of the node that was before trailer to point to newNode.
+    trailer->prev = newNode;        // Set trailer prev to newNode
 }
 
 template <typename Elem>
@@ -93,19 +93,19 @@ void DLinkedList<Elem>::add(const Elem& e, int pos) {
         DNode* current = header->next;
         for (int i = 0; i < pos - 1; i++) current = current->next;
 
-        newNode->next = current;
-        newNode->prev = current->prev;
-        current->prev->next = newNode;
-        current->prev = newNode;
+        newNode->next = current;        // Set newNode's next to current (the node at pos)
+        newNode->prev = current->prev;  // Set newNode's prev to the node before current
+        current->prev->next = newNode;  // Set the next pointer of the node before current to newNode
+        current->prev = newNode;        // Set current's prev to newNode
     }
 }
 
 template <typename Elem>
 void DLinkedList<Elem>::removeFront() {
     if(!empty()){
-        DNode* oldNode = header->next;
-        header->next = oldNode->next;
-        oldNode->next->prev = header;
+        DNode* oldNode = header->next;  // Get the node after header
+        header->next = oldNode->next;   // Set header's next to the node after oldNode
+        oldNode->next->prev = header;   // Set the previous pointer of the node after oldNode to header
         delete oldNode;
 	}
 	else throw std::runtime_error("Empty list!");
@@ -114,9 +114,9 @@ void DLinkedList<Elem>::removeFront() {
 template <typename Elem>
 void DLinkedList<Elem>::removeBack() {
     if(!empty()){
-        DNode* oldNode = trailer->prev;
-        trailer->prev = oldNode->prev;
-        oldNode->prev->next = trailer;
+        DNode* oldNode = trailer->prev; // Get the node before trailer
+        trailer->prev = oldNode->prev;  // Set trailer's prev to the node before oldNode
+        oldNode->prev->next = trailer;  // Set the next pointer of the node before oldNode to trailer
         delete oldNode;
 	}
 	else throw std::runtime_error("Empty list!");
@@ -132,8 +132,8 @@ void DLinkedList<Elem>::remove(int pos) {
         for (int i = 0; i < pos-1; ++i) current = current->next;
 
 
-        current->prev->next = current->next;
-        current->next->prev = current->prev;
+        current->prev->next = current->next;    // Set the next pointer of the node before current to the node after current
+        current->next->prev = current->prev;    // Set the previous pointer of the node after current to the node before current
         delete current;
 	}
     
