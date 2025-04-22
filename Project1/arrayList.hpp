@@ -104,7 +104,6 @@ void Arraylist<T>::add(T item, int index) {
 template <typename T>
 void Arraylist<T>::removeBack() {
     if (size > 0) {
-        delete arr[size - 1];  // Zwolnienie pamięci, na którą wskazuje ostatni element
         size--; 
     }
 }
