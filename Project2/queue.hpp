@@ -11,7 +11,7 @@ public:
     virtual T extractMax() = 0;
     virtual T findMax() const = 0;
     virtual void modifyKey(const T& e, int p) = 0;
-    virtual int returnSize() const = 0;
+    virtual int getSize() const = 0;
     virtual bool empty() const = 0;
 
     virtual ~Queue() {}
