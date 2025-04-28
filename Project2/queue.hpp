@@ -14,5 +14,5 @@ public:
     virtual int returnSize() const = 0;
     virtual bool empty() const = 0;
 
-    virtual ~Queue() {} 
+    virtual ~Queue() {}
 };
