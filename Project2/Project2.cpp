@@ -11,14 +11,8 @@ int main() {
     queue.insert(40, 3);
     queue.insert(25, 4);
     queue.insert(100, 1);
-    queue.print();
-    std::cout << "elem: " <<queue.extractMax()<<std::endl;
-    queue.extractMax();
-    queue.extractMax();
-    queue.extractMax();
-    queue.extractMax();
-    queue.extractMax();
-    std::cout << "elem: " <<queue.extractMax()<<std::endl;
+    queue.modifyKey(30, 15);
+    queue.modifyKey(100, 15);
     queue.print();
     std::cout << "Queue size: " << queue.getSize() << std::endl;
     return 0;

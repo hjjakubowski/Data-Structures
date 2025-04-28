@@ -56,12 +56,28 @@ T LinkedQueue<T>::extractMax() {
 
 template <typename T>
 T LinkedQueue<T>::findMax() const {
-
+    if (this->size == 0) {
+        return -1;
+    }
+    
+    return list[(this->size-1)].item;  
 }
 
 template <typename T>
 void LinkedQueue<T>::modifyKey(const T& e, int p) {
-
+    if (list[this->size - 1].item == e) {
+        list[this->size - 1].priority = p;
+        return;
+    }
+    for (int i = this->size-1; i >= 0; i--) {
+        if (e == list[i].item) {
+            T temp = list[i].item;
+            list.remove(i+1);
+            insert(temp, p);
+            this->size--;
+            return;
+        }
+    }
 }
 
 template <typename T>
