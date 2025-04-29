@@ -26,6 +26,7 @@ private:
 
 public:
     HeapyPriorityQueue();
+    HeapyPriorityQueue(const HeapyPriorityQueue<T>& other);
     ~HeapyPriorityQueue();
 
     void insert(const T& e, int p) override;
@@ -41,6 +42,16 @@ public:
 
 template<typename T>
 HeapyPriorityQueue<T>::HeapyPriorityQueue() : Queue<T>(), heap(nullptr), capacity(0) {}
+
+template<typename T>
+HeapyPriorityQueue<T>::HeapyPriorityQueue(const HeapyPriorityQueue<T>& other)
+    : Queue<T>(other.size), capacity(other.capacity)
+{
+    heap = new Element[capacity];
+    for (int i = 0; i < other.size; ++i) {
+        heap[i] = other.heap[i];
+    }
+}
 
 template<typename T>
 HeapyPriorityQueue<T>::~HeapyPriorityQueue() {
