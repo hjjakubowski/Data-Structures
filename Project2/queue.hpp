@@ -3,24 +3,17 @@
 template<typename T>
 class Queue {
 protected:
-    int size;
-    class Node {
-    public:
-        T item;
-        int priority;
-        Node() : item(T()), priority(0) {}
-        Node(T e, int p) : item(e), priority(p) {}
-    };
+    int size = 0;
 
 public:
-    Queue(int size_) : size(size_) {}
-    Queue() : size(0) {}
+    Queue() {}
+    virtual ~Queue() {}
+
     virtual void insert(const T& e, int p) = 0;
     virtual T extractMax() = 0;
     virtual T findMax() const = 0;
     virtual void modifyKey(const T& e, int p) = 0;
+    virtual int getSize() const { return size; }
 
-    int getSize() { return size; }
-
-    virtual ~Queue() {}
+    virtual bool empty() const = 0;
 };
