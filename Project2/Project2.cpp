@@ -15,32 +15,46 @@ long long measureTime(Func func) {
     return std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 }
 
+#include <thread>
+#include <mutex>
+#include <future>
+
 template <typename QueueType>
 void autoPT(const std::string& queueName) {
     std::string operations[] = { "insert", "extractMax", "findMax", "modifyKey", "empty" };
     std::vector<int> dataSizes = { 5000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000 };
     int repeatCount = 1;
 
-	std::cout << "Tworzenie kolejek..." << std::endl;
-    std::vector<std::unique_ptr<QueueType>> preparedQueues;
+    std::cout << "Rownolegle tworzenie kolejek..." << std::endl;
+    std::vector<std::unique_ptr<QueueType>> preparedQueues(dataSizes.size());
+    std::vector<std::future<void>> futures;
 
-    for (int dataSize : dataSizes) {
-        std::mt19937 generator(1);
-        std::uniform_int_distribution<> priorityDistribution(1, dataSize * 2);
+    for (size_t i = 0; i < dataSizes.size(); ++i) {
+        futures.push_back(std::async(std::launch::async, [&, i]() {
+            int dataSize = dataSizes[i];
+            std::mt19937 generator(1);
+            std::uniform_int_distribution<> priorityDistribution(1, dataSize * 2);
 
-        std::vector<std::pair<int, int>> data;
-        for (int i = 0; i < dataSize; ++i) {
-            data.emplace_back(i, priorityDistribution(generator));
-        }
+            std::vector<std::pair<int, int>> data;
+            data.reserve(dataSize);
+            for (int j = 0; j < dataSize; ++j) {
+                data.emplace_back(j, priorityDistribution(generator));
+            }
 
-        auto queue = std::make_unique<QueueType>();
-        for (const auto& [element, priority] : data) {
-            queue->insert(element, priority);
-        }
-        preparedQueues.push_back(std::move(queue));
+            auto queue = std::make_unique<QueueType>();
+            for (const auto& [element, priority] : data) {
+                queue->insert(element, priority);
+            }
+
+            preparedQueues[i] = std::move(queue);
+            }));
     }
-	std::cout << "Kolejki utworzone." << std::endl;
 
+    for (auto& fut : futures) {
+        fut.get();
+    }
+
+    std::cout << "Kolejki utworzone." << std::endl;
     std::cout << "--- " << queueName << " ---" << std::endl;
 
     for (const std::string& opName : operations) {
@@ -53,7 +67,6 @@ void autoPT(const std::string& queueName) {
 
             for (int r = 0; r < repeatCount; ++r) {
                 auto queue = std::make_unique<QueueType>(*preparedQueue);
-
                 int testElement = dataSize - 1;
 
                 if (opName == "insert") {
@@ -90,6 +103,7 @@ void autoPT(const std::string& queueName) {
 
     std::cout << "==============================" << std::endl;
 }
+
 
 
 
@@ -166,8 +180,8 @@ int main() {
             queueMenu(heapyQueue);
             break;
         case 3:
-            autoPT<LinkedQueue<int>>("Linked Queue");
             autoPT<HeapyPriorityQueue<int>>("Heap-based Priority Queue");
+            autoPT<LinkedQueue<int>>("Linked Queue");
             break;
         case 0:
             std::cout << "Zakonczono program.\n";
