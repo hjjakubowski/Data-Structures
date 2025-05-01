@@ -15,7 +15,7 @@ long long measureTime(Func func) {
 
 template <typename QueueType>
 void autoPT(const std::string& queueName, int element = 43, int priority = 5) {
-    std::string operations[] = {"insert", "extractMax", "findMax", "modifyKey", "empty"};
+    std::string operations[] = {"insert", "extractMax", "findMax", "modifyKey", "getSize"};
     int dataSizes[] = {5000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000};
 
     std::cout << "--- " << queueName << " ---" << std::endl;
@@ -34,8 +34,7 @@ void autoPT(const std::string& queueName, int element = 43, int priority = 5) {
                 for (int i = 0; i < dataSize; ++i) {
                     queue.insert(dis(generator), dis(generator));
                 }
-                std::cout<<"halo";
-
+                
                 if (opName == "insert") {
                     totalDuration += measureTime([&]() { queue.insert(element, priority); });
                 } else if (opName == "extractMax") {
@@ -44,8 +43,8 @@ void autoPT(const std::string& queueName, int element = 43, int priority = 5) {
                     totalDuration += measureTime([&]() { queue.findMax(); });
                 } else if (opName == "modifyKey") {
                     totalDuration += measureTime([&]() { queue.modifyKey(element, priority + 1); });
-                } else if (opName == "empty") {
-                    totalDuration += measureTime([&]() { queue.empty(); });
+                } else if (opName == "getSize") {
+                    totalDuration += measureTime([&]() { queue.getSize(); });
                 }
             }
 
@@ -66,7 +65,7 @@ void queueMenu(QueueType& queue) {
         std::cout << "2. Zmien priorytet elementu\n";
         std::cout << "3. Wyciagnij max\n";
         std::cout << "4. Wydrukuj kolejke\n";
-        std::cout << "5. Sprawdz czy kolejka jest pusta\n";
+        std::cout << "5. Znajdz max\n";
         std::cout << "6. Wyjdz do glownego menu\n";
         std::cout << "Wybierz opcje: ";
         std::cin >> choice;
@@ -87,13 +86,13 @@ void queueMenu(QueueType& queue) {
                 queue.modifyKey(element, priority);
                 break;
             case 3:
-                std::cout << "Max element: " << queue.extractMax() << std::endl;
+                std::cout << "Max element: " << queue.extractMax() << " wyciagniety" << std::endl;
                 break;
             case 4:
                 queue.print();
                 break;
             case 5:
-                std::cout << (queue.empty() ? "Kolejka jest pusta" : "Kolejka nie jest pusta") << std::endl;
+                std::cout << "Max element: " << queue.findMax() << std::endl;
                 break;
             case 6:
                 break;
@@ -102,6 +101,7 @@ void queueMenu(QueueType& queue) {
                 break;
         }
     }
+    std::cout << std::endl << std::endl;
 }
 
 void menu() {
