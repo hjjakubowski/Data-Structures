@@ -9,8 +9,7 @@ public:
     Queue() {}
     Queue(int s) : size(s) {}
     virtual ~Queue() {}
-    Queue(const Queue&) = delete;
-    Queue& operator=(const Queue&) = delete;
+
 
     virtual void insert(const T& e, int p) = 0;
     virtual T extractMax() = 0;

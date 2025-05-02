@@ -2,10 +2,9 @@
 #include <chrono>
 #include <random>
 #include <functional>
-#include <vector>
-#include <sstream>
 #include "linkedQueue.hpp"
 #include "HeapyPriorityQueue.hpp"
+
 
 template<typename Func>
 long long measureTime(Func func) {
@@ -15,97 +14,57 @@ long long measureTime(Func func) {
     return std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 }
 
-#include <thread>
-#include <mutex>
-#include <future>
-
 template <typename QueueType>
 void autoPT(const std::string& queueName) {
-    std::string operations[] = { "insert", "extractMax", "findMax", "modifyKey", "empty" };
-    std::vector<int> dataSizes = { 5000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000 };
-    int repeatCount = 1;
+    std::string operations[] = { "insert", "extractMax", "findMax", "modifyKey", "getSize" };
+    int dataSizes[] = { 5000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000 };
 
-    std::cout << "Rownolegle tworzenie kolejek..." << std::endl;
-    std::vector<std::unique_ptr<QueueType>> preparedQueues(dataSizes.size());
-    std::vector<std::future<void>> futures;
-
-    for (size_t i = 0; i < dataSizes.size(); ++i) {
-        futures.push_back(std::async(std::launch::async, [&, i]() {
-            int dataSize = dataSizes[i];
-            std::mt19937 generator(1);
-            std::uniform_int_distribution<> priorityDistribution(1, dataSize * 2);
-
-            std::vector<std::pair<int, int>> data;
-            data.reserve(dataSize);
-            for (int j = 0; j < dataSize; ++j) {
-                data.emplace_back(j, priorityDistribution(generator));
-            }
-
-            auto queue = std::make_unique<QueueType>();
-            for (const auto& [element, priority] : data) {
-                queue->insert(element, priority);
-            }
-
-            preparedQueues[i] = std::move(queue);
-            }));
-    }
-
-    for (auto& fut : futures) {
-        fut.get();
-    }
-
-    std::cout << "Kolejki utworzone." << std::endl;
     std::cout << "--- " << queueName << " ---" << std::endl;
 
     for (const std::string& opName : operations) {
         std::cout << "=== Operacja: " << opName << " ===" << std::endl;
 
-        for (size_t idx = 0; idx < dataSizes.size(); ++idx) {
-            int dataSize = dataSizes[idx];
-            const auto& preparedQueue = preparedQueues[idx];
+        for (int dataSize : dataSizes) {
             double totalDuration = 0;
 
-            for (int r = 0; r < repeatCount; ++r) {
-                auto queue = std::make_unique<QueueType>(*preparedQueue);
+            for (int seed = 1; seed <= 10; ++seed) {
+                QueueType queue;
+                std::mt19937 generator(seed);
+                std::uniform_int_distribution<> dis(1, 2*dataSize);
+
+
+
+                for (int i = 0; i < dataSize; ++i) {
+                    queue.insert(i , dis(generator));
+                }
+
                 int testElement = dataSize - 1;
+                int testPriority = queue.findMax() - 1;
 
                 if (opName == "insert") {
-                    totalDuration += measureTime([&]() {
-                        queue->insert(testElement, 5);
-                        });
+                    totalDuration += measureTime([&]() { queue.insert(testElement, testPriority); });
                 }
                 else if (opName == "extractMax") {
-                    totalDuration += measureTime([&]() {
-                        queue->extractMax();
-                        });
+                    totalDuration += measureTime([&]() { queue.extractMax(); });
                 }
                 else if (opName == "findMax") {
-                    totalDuration += measureTime([&]() {
-                        queue->findMax();
-                        });
+                    totalDuration += measureTime([&]() { queue.findMax(); });
                 }
                 else if (opName == "modifyKey") {
-                    totalDuration += measureTime([&]() {
-                        queue->modifyKey(testElement, 6);
-                        });
+                    totalDuration += measureTime([&]() { queue.modifyKey(testElement, testPriority + 1); });
                 }
-                else if (opName == "empty") {
-                    totalDuration += measureTime([&]() {
-                        queue->empty();
-                        });
+                else if (opName == "getSize") {
+                    totalDuration += measureTime([&]() { queue.getSize(); });
                 }
             }
 
             std::cout << "Rozmiar: " << dataSize << " | Sredni czas operacji " << opName
-                << " = " << totalDuration / repeatCount << " ns" << std::endl;
+                << " = " << totalDuration / 10 << " ns" << std::endl;
         }
     }
 
     std::cout << "==============================" << std::endl;
 }
-
-
-
 
 template<typename QueueType>
 void queueMenu(QueueType& queue) {
@@ -116,7 +75,7 @@ void queueMenu(QueueType& queue) {
         std::cout << "2. Zmien priorytet elementu\n";
         std::cout << "3. Wyciagnij max\n";
         std::cout << "4. Wydrukuj kolejke\n";
-        std::cout << "5. Sprawdz czy kolejka jest pusta\n";
+        std::cout << "5. Znajdz max\n";
         std::cout << "6. Wyjdz do glownego menu\n";
         std::cout << "Wybierz opcje: ";
         std::cin >> choice;
@@ -137,13 +96,13 @@ void queueMenu(QueueType& queue) {
             queue.modifyKey(element, priority);
             break;
         case 3:
-            std::cout << "Max element: " << queue.extractMax() << std::endl;
+            std::cout << "Max element: " << queue.extractMax() << " wyciagniety" << std::endl;
             break;
         case 4:
             queue.print();
             break;
         case 5:
-            std::cout << (queue.empty() ? "Kolejka jest pusta" : "Kolejka nie jest pusta") << std::endl;
+            std::cout << "Max element: " << queue.findMax() << std::endl;
             break;
         case 6:
             break;
@@ -152,6 +111,7 @@ void queueMenu(QueueType& queue) {
             break;
         }
     }
+    std::cout << std::endl << std::endl;
 }
 
 void menu() {
@@ -194,3 +154,4 @@ int main() {
 
     return 0;
 }
+

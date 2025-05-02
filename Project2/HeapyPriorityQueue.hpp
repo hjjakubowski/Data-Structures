@@ -2,7 +2,8 @@
 #define PRIORITY_QUEUE_HPP
 
 #include <stdexcept>
-#include <iostream>    
+#include <iostream>
+#include <unordered_map>
 #include "Queue.hpp"
 
 template<typename T>
@@ -19,6 +20,7 @@ private:
 
     Element* heap;
     int capacity;
+    std::unordered_map<T, int> indexMap;
 
     void heapifyUp(int index);
     void heapifyDown(int index);
@@ -26,7 +28,6 @@ private:
 
 public:
     HeapyPriorityQueue();
-    HeapyPriorityQueue(const HeapyPriorityQueue<T>& other);
     ~HeapyPriorityQueue();
 
     void insert(const T& e, int p) override;
@@ -36,22 +37,12 @@ public:
     int getSize() const override;
     bool empty() const override;
 
-    int getCapacity() const;   
-    void print() const;    
+    int getCapacity() const;
+    void print() const;
 };
 
 template<typename T>
 HeapyPriorityQueue<T>::HeapyPriorityQueue() : Queue<T>(), heap(nullptr), capacity(0) {}
-
-template<typename T>
-HeapyPriorityQueue<T>::HeapyPriorityQueue(const HeapyPriorityQueue<T>& other)
-    : Queue<T>(other.size), capacity(other.capacity)
-{
-    heap = new Element[capacity];
-    for (int i = 0; i < other.size; ++i) {
-        heap[i] = other.heap[i];
-    }
-}
 
 template<typename T>
 HeapyPriorityQueue<T>::~HeapyPriorityQueue() {
@@ -77,6 +68,7 @@ void HeapyPriorityQueue<T>::heapifyUp(int index) {
     int parent = (index - 1) / 2;
     if (heap[parent] < heap[index]) {
         std::swap(heap[parent], heap[index]);
+        std::swap(indexMap[heap[parent].value], indexMap[heap[index].value]);
         heapifyUp(parent);
     }
 }
@@ -95,6 +87,7 @@ void HeapyPriorityQueue<T>::heapifyDown(int index) {
     }
     if (largest != index) {
         std::swap(heap[index], heap[largest]);
+        std::swap(indexMap[heap[index].value], indexMap[heap[largest].value]);
         heapifyDown(largest);
     }
 }
@@ -105,6 +98,7 @@ void HeapyPriorityQueue<T>::insert(const T& e, int p) {
         resize();
     }
     heap[this->size] = Element{ e, p };
+    indexMap[e] = this->size;
     heapifyUp(this->size);
     ++(this->size);
 }
@@ -115,9 +109,13 @@ T HeapyPriorityQueue<T>::extractMax() {
         throw std::out_of_range("HeapyPriorityQueue::extractMax() called on empty queue");
     }
     T maxValue = heap[0].value;
+    indexMap.erase(maxValue);
     heap[0] = heap[this->size - 1];
     --(this->size);
-    heapifyDown(0);
+    if (!empty()) {
+        indexMap[heap[0].value] = 0;
+        heapifyDown(0);
+    }
     return maxValue;
 }
 
@@ -131,20 +129,19 @@ T HeapyPriorityQueue<T>::findMax() const {
 
 template<typename T>
 void HeapyPriorityQueue<T>::modifyKey(const T& e, int p) {
-    for (int i = 0; i < this->size; ++i) {
-        if (heap[i].value == e) {
-            int oldPriority = heap[i].priority;
-            heap[i].priority = p;
-            if (p > oldPriority) {
-                heapifyUp(i);
-            }
-            else if (p < oldPriority) {
-                heapifyDown(i);
-            }
-            return;
-        }
+    auto it = indexMap.find(e);
+    if (it == indexMap.end()) {
+        throw std::invalid_argument("Element not found in HeapyPriorityQueue");
     }
-    throw std::invalid_argument("Element not found in HeapyPriorityQueue");
+    int i = it->second;
+    int oldPriority = heap[i].priority;
+    heap[i].priority = p;
+    if (p > oldPriority) {
+        heapifyUp(i);
+    }
+    else if (p < oldPriority) {
+        heapifyDown(i);
+    }
 }
 
 template<typename T>
@@ -170,4 +167,4 @@ void HeapyPriorityQueue<T>::print() const {
     }
 }
 
-#endif 
+#endif
