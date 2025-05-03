@@ -12,15 +12,19 @@ private:
     struct Element {
         T value;
         int priority;
+        int order;
 
         bool operator<(const Element& other) const {
-            return priority < other.priority;
+            if(priority != other.priority)
+                return priority < other.priority;
+			return order > other.order;  // FIFO order for same priority
         }
     };
 
     Element* heap;
     int capacity;
     std::unordered_map<T, int> indexMap;
+	int nextOrder = 0;
 
     void heapifyUp(int index);
     void heapifyDown(int index);
@@ -97,7 +101,7 @@ void HeapyPriorityQueue<T>::insert(const T& e, int p) {
     if (this->size == capacity) {
         resize();
     }
-    heap[this->size] = Element{ e, p };
+    heap[this->size] = Element{ e, p , nextOrder++};
     indexMap[e] = this->size;
     heapifyUp(this->size);
     ++(this->size);
