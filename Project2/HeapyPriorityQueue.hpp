@@ -48,6 +48,7 @@ public:
 template<typename T>
 HeapyPriorityQueue<T>::HeapyPriorityQueue() : Queue<T>(), heap(nullptr), capacity(0) {}
 
+
 template<typename T>
 HeapyPriorityQueue<T>::~HeapyPriorityQueue() {
     delete[] heap;
@@ -133,15 +134,15 @@ T HeapyPriorityQueue<T>::findMax() const {
 
 template<typename T>
 void HeapyPriorityQueue<T>::modifyKey(const T& e, int p) {
-    auto it = indexMap.find(e);
-    if (it == indexMap.end()) {
+    auto elementPositionInMap = indexMap.find(e);
+    if (elementPositionInMap == indexMap.end()) {
         throw std::invalid_argument("Element not found in HeapyPriorityQueue");
     }
-    int i = it->second;
-    int oldPriority = heap[i].priority;
+    int heapIndex = elementPositionInMap->second;
+    int oldPriority = heap[heapIndex].priority;
     heap[i].priority = p;
     if (p > oldPriority) {
-        heapifyUp(i);
+        heapifyUp(heapIndex);
     }
     else if (p < oldPriority) {
         heapifyDown(i);
