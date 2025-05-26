@@ -3,17 +3,16 @@
 
 int main() {
     AVL<int> tree;
+    int values[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1};
+    for (int val : values)
+        tree.insert(val);
 
-    tree.insert(10);
-    tree.insert(5);
-    tree.insert(15);
-    tree.insert(2);
-    tree.insert(7);
-    tree.insert(12);
-    tree.insert(20);
+    cout << "In-order traversal: ";
+    tree.inOrder();
 
-    std::cout << "InOrder traversal: ";
-    tree.inOrder(); 
+    cout << "\nBalance factors:\n";
+    tree.printBalanceFactors();
 
     return 0;
 }
+
