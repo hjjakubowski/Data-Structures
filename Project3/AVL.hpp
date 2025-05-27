@@ -22,8 +22,8 @@ private:
 
     int height(Node* node);
     int getBF(Node* node);
-    Node* rotateLeft(Node* z);
-    Node* rotateRight(Node* y);
+    Node* rotateLeft(Node* a);
+    Node* rotateRight(Node* a);
     Node* insert(Node* node, T value);
     void inOrder(Node* node);
     void deleteTree(Node* node);
@@ -47,6 +47,10 @@ template <typename T>
 AVL<T>::AVL() : root(nullptr) {}
 
 
+template <typename T>
+AVL<T>::~AVL() {
+    deleteTree(root);
+}
 
 
 template <typename T>
@@ -62,57 +66,61 @@ int AVL<T>::getBF(Node* node) {
 
 
 template <typename T>
-typename AVL<T>::Node* AVL<T>::rotateLeft(Node* z) {
-    Node* y = z->right;
-    Node* T2 = y->left;
+typename AVL<T>::Node* AVL<T>::rotateLeft(Node* a) {
+    Node* b = a->right;
+    Node* temp = b->left;
 
-    y->left = z;
-    z->right = T2;
+    b->left = a;
+    a->right = temp;
 
-    z->height = 1 + max(height(z->left), height(z->right));
-    y->height = 1 + max(height(y->left), height(y->right));
+    a->height = 1 + max(height(a->left), height(a->right));
+    b->height = 1 + max(height(b->left), height(b->right));
 
-    return y;
+    return b;
 }
 
 
+
 template <typename T>
-typename AVL<T>::Node* AVL<T>::rotateRight(Node* y) {
-    Node* x = y->left;
-    Node* T2 = x->right;
+typename AVL<T>::Node* AVL<T>::rotateRight(Node* a) {
+    Node* b = a->left;
+    Node* temp = b->right;
 
-    x->right = y;
-    y->left = T2;
+    b->right = a;
+    a->left = temp;
 
-    y->height = 1 + max(height(y->left), height(y->right));
-    x->height = 1 + max(height(x->left), height(x->right));
+    a->height = 1 + max(height(a->left), height(a->right));
+    b->height = 1 + max(height(b->left), height(b->right));
 
-    return x;
+    return b;
 }
 
 
 template <typename T>
 typename AVL<T>::Node* AVL<T>::insert(Node* node, T value) {
-    if (!node)
+    if (!node) {
         return new Node(value);
-
-    if (value < node->value)
+    }
+    if (value < node->value) {
         node->left = insert(node->left, value);
-    else if (value > node->value)
+    }
+    else if (value > node->value) {
         node->right = insert(node->right, value);
-    else
+    }
+    else {
         return node;
+    }
 
     node->height = 1 + max(height(node->left), height(node->right));
 
     int balance = getBF(node);
 
-    if (balance > 1 && value < node->left->value)
+    if (balance > 1 && value < node->left->value) {
         return rotateRight(node);
-
-    if (balance < -1 && value > node->right->value)
+    }
+    if (balance < -1 && value > node->right->value) {
         return rotateLeft(node);
-
+    }
     if (balance > 1 && value > node->left->value) {
         node->left = rotateLeft(node->left);
         return rotateRight(node);
@@ -147,6 +155,13 @@ void AVL<T>::inOrder() {
 }
 
 
+template <typename T>
+void AVL<T>::deleteTree(Node* node) {
+    if (!node) return;
+    deleteTree(node->left);
+    deleteTree(node->right);
+    delete node;
+}
 
 
 template <typename T>

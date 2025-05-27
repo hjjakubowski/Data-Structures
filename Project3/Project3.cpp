@@ -3,7 +3,7 @@
 
 int main() {
     AVL<int> tree;
-    int values[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1};
+    int values[] = {5,4,7};
     for (int val : values)
         tree.insert(val);
 
