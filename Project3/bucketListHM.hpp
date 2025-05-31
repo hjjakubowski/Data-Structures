@@ -23,7 +23,6 @@ public:
     void insert(const KeyType& key, const ValueType& value);
     void remove(const KeyType& key);
 	void print() const;
-    int size() const;
 };
 
 
