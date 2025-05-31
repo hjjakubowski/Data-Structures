@@ -1,40 +1,47 @@
 #include <iostream>
+#include <functional>
 
-class HashMap {
+template <typename KeyType, typename ValueType>
+class HashMapBucketList {
 private:
     struct Node {
-        int key;
-        int value;
+        KeyType key;
+        ValueType value;
         Node* next;
-        Node(int k, int v);
+        Node(const KeyType& k, const ValueType& v);
     };
 
     Node** table;
     int capacity;
     int numOfElements;
-
-    int hashFunction(int key) const;
+    std::function<size_t(const KeyType&)> hashFunction;
 
 public:
-    HashMap(int cap = 100);
-    ~HashMap();
+    HashMapBucketList(int cap = 100, std::function<size_t(const KeyType&)> hashFn = std::hash<KeyType>());
+    ~HashMapBucketList();
 
-    void insert(int key, int value);
-    void remove(int key);
-    bool search(int key, int& value) const;
+    void insert(const KeyType& key, const ValueType& value);
+    void remove(const KeyType& key);
+	void print() const;
     int size() const;
 };
 
 
-HashMap::Node::Node(int k, int v) : key(k), value(v), next(nullptr) {}
+template <typename KeyType, typename ValueType>
+HashMapBucketList<KeyType, ValueType>::Node::Node(const KeyType& k, const ValueType& v)
+    : key(k), value(v), next(nullptr) {
+}
 
-HashMap::HashMap(int cap) : capacity(cap), numOfElements(0) {
+template <typename KeyType, typename ValueType>
+HashMapBucketList<KeyType, ValueType>::HashMapBucketList(int cap, std::function<size_t(const KeyType&)> hashFn)
+    : capacity(cap), numOfElements(0), hashFunction(hashFn) {
     table = new Node * [capacity];
     for (int i = 0; i < capacity; ++i)
         table[i] = nullptr;
 }
 
-HashMap::~HashMap() {
+template <typename KeyType, typename ValueType>
+HashMapBucketList<KeyType, ValueType>::~HashMapBucketList() {
     for (int i = 0; i < capacity; ++i) {
         Node* node = table[i];
         while (node) {
@@ -46,14 +53,10 @@ HashMap::~HashMap() {
     delete[] table;
 }
 
-int HashMap::hashFunction(int key) const {
-    return key % capacity;
-}
-
-void HashMap::insert(int key, int value) {
-    int bucketIndex = hashFunction(key);
+template <typename KeyType, typename ValueType>
+void HashMapBucketList<KeyType, ValueType>::insert(const KeyType& key, const ValueType& value) {
+    int bucketIndex = static_cast<int>(hashFunction(key) % capacity);
     Node* node = table[bucketIndex];
-    // Nadpisz, jeœli ju¿ istnieje
     while (node) {
         if (node->key == key) {
             node->value = value;
@@ -61,15 +64,15 @@ void HashMap::insert(int key, int value) {
         }
         node = node->next;
     }
-    // Dodaj na pocz¹tek listy
     Node* newNode = new Node(key, value);
     newNode->next = table[bucketIndex];
     table[bucketIndex] = newNode;
     ++numOfElements;
 }
 
-void HashMap::remove(int key) {
-    int bucketIndex = hashFunction(key);
+template <typename KeyType, typename ValueType>
+void HashMapBucketList<KeyType, ValueType>::remove(const KeyType& key) {
+    int bucketIndex = static_cast<int>(hashFunction(key) % capacity);
     Node* node = table[bucketIndex];
     Node* prev = nullptr;
     while (node) {
@@ -87,19 +90,19 @@ void HashMap::remove(int key) {
     }
 }
 
-bool HashMap::search(int key, int& value) const {
-    int bucketIndex = hashFunction(key);
-    Node* node = table[bucketIndex];
-    while (node) {
-        if (node->key == key) {
-            value = node->value;
-            return true;
+template <typename KeyType, typename ValueType>
+void HashMapBucketList<KeyType, ValueType>::print() const {
+    for (int i = 0; i < capacity; ++i) {
+        std::cout << "Bucket " << i << ": ";
+        Node* node = table[i];
+        if (!node) {
+            std::cout << "pusty";
         }
-        node = node->next;
+        while (node) {
+            std::cout << "[" << node->key << " : " << node->value << "]";
+            if (node->next) std::cout << " -> ";
+            node = node->next;
+        }
+        std::cout << std::endl;
     }
-    return false;
-}
-
-int HashMap::size() const {
-    return numOfElements;
 }
