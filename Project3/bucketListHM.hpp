@@ -1,5 +1,4 @@
 #include <iostream>
-#include <functional>
 
 template <typename KeyType, typename ValueType>
 class HashMapBucketList {
@@ -17,7 +16,7 @@ private:
     std::function<size_t(const KeyType&)> hashFunction;
 
 public:
-    HashMapBucketList(int cap = 100, std::function<size_t(const KeyType&)> hashFn = std::hash<KeyType>());
+    HashMapBucketList(int cap = 100);
     ~HashMapBucketList();
 
     void insert(const KeyType& key, const ValueType& value);
@@ -31,9 +30,12 @@ HashMapBucketList<KeyType, ValueType>::Node::Node(const KeyType& k, const ValueT
     : key(k), value(v), next(nullptr) {
 }
 
+
 template <typename KeyType, typename ValueType>
-HashMapBucketList<KeyType, ValueType>::HashMapBucketList(int cap, std::function<size_t(const KeyType&)> hashFn)
-    : capacity(cap), numOfElements(0), hashFunction(hashFn) {
+HashMapBucketList<KeyType, ValueType>::HashMapBucketList(int cap)
+    : capacity(cap), numOfElements(0),
+    hashFunction([cap](const KeyType& key) { return static_cast<int>(key) % cap; })
+{
     table = new Node * [capacity];
     for (int i = 0; i < capacity; ++i)
         table[i] = nullptr;
