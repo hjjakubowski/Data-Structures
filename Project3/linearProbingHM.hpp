@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdexcept>
-#include <limits>
+
 
 template <typename KeyType, typename ValueType>
 class HashMapLinearProbing {
@@ -16,7 +16,7 @@ class HashMapLinearProbing {
     int capacity;
     int size;
     HashNode* deletedNodeMarker;
-    int hashCode(const KeyType& key) const;
+    int hashFunction(const KeyType& key) const;
 
 public:
 	HashMapLinearProbing();
@@ -55,7 +55,7 @@ HashMapLinearProbing<KeyType, ValueType>::~HashMapLinearProbing()
 }
 
 template <typename KeyType, typename ValueType>
-int HashMapLinearProbing<KeyType, ValueType>::hashCode(const KeyType& key) const
+int HashMapLinearProbing<KeyType, ValueType>::hashFunction(const KeyType& key) const
 {
     return static_cast<int>(key) % capacity; 
 }
@@ -74,7 +74,7 @@ void HashMapLinearProbing<KeyType, ValueType>::insert(const KeyType& key, const 
 
         for (int i = 0; i < oldCapacity; ++i) {
             if (oldArr[i] && oldArr[i] != deletedNodeMarker) {
-                int newIndex = hashCode(oldArr[i]->key);
+                int newIndex = hashFunction(oldArr[i]->key);
                 while (arr[newIndex] != nullptr) {
                     newIndex = (newIndex + 1) % capacity;
                 }
@@ -83,7 +83,7 @@ void HashMapLinearProbing<KeyType, ValueType>::insert(const KeyType& key, const 
         }
         delete[] oldArr;
     }
-    int hashIndex = hashCode(key);
+    int hashIndex = hashFunction(key);
     int startIndex = hashIndex;
     do {
         if (arr[hashIndex] == nullptr || arr[hashIndex] == deletedNodeMarker) {
@@ -105,7 +105,7 @@ void HashMapLinearProbing<KeyType, ValueType>::insert(const KeyType& key, const 
 template <typename KeyType, typename ValueType>
 ValueType HashMapLinearProbing<KeyType, ValueType>::remove(const KeyType& key)
 {
-    int hashIndex = hashCode(key);
+    int hashIndex = hashFunction(key);
     int startIndex = hashIndex;
     do {
         if (arr[hashIndex] == nullptr) {
