@@ -115,8 +115,8 @@ void mainMenu() {
             hashTableMenu<HashMapLinearProbing<int, int>>("Linear Probing HM");
             break;
         case 3:
-            autoTestHashTable<HashMapBucketList<int, int>>("Chain separating HM", 100000);   
-            autoTestHashTable<HashMapLinearProbing<int, int>>("Linear Probing HM", 100000); 
+            autoTestHashTable<HashMapBucketList<int, int>>("Chain separating HM", 1000000);   
+            autoTestHashTable<HashMapLinearProbing<int, int>>("Linear Probing HM", 100); 
             break;
         case 4:
             std::cout << "Zakonczono program.\n";
