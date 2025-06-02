@@ -1,12 +1,12 @@
 #include <iostream>
 #include <chrono>
 #include <random>
-#include <functional>
+#include <algorithm>
 #include "HashAVL.hpp"
 
 using namespace std;
 
-long long measureTime(function<void()> func) {
+long long measureTime(auto func) {
     auto start = chrono::high_resolution_clock::now();
     func();
     auto end = chrono::high_resolution_clock::now();
@@ -16,29 +16,32 @@ long long measureTime(function<void()> func) {
 void autoTestHashTable() {
     cout << "--- Autotest HashTable ---\n";
 
-    int sizes[] = { 5000, 100000, 200000, 300000, 400000, 500000 };
+    int sizes[] = { 5000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000 };
 
     for (int size : sizes) {
         mt19937 gen(42);
-        uniform_int_distribution<int> dis(1, size * 10);
 
         int* keys = new int[size];
         int* values = new int[size];
 
         for (int i = 0; i < size; ++i) {
             keys[i] = i;
+        }
+
+        shuffle(keys, keys + size, gen);
+
+        uniform_int_distribution<int> dis(1, size * 10);
+        for (int i = 0; i < size; ++i) {
             values[i] = dis(gen);
         }
 
-        HashTable<int> table;
+        HashTable<int, int> table(1000);
 
         long long insertTime = measureTime([&]() {
             for (int i = 0; i < size; ++i) {
                 table.insert(keys[i], values[i]);
             }
         });
-
-        // Тепер заміряємо час видалення половини елементів
 
         long long removeTime = measureTime([&]() {
             for (int i = 0; i < size / 2; ++i) {
@@ -67,7 +70,7 @@ void menu() {
 }
 
 void hashTableMenu() {
-    HashTable<int> table;
+    HashTable<int, int> table;
 
     int choice = -1;
     while (choice != 5) {
