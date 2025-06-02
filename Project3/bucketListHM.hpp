@@ -22,6 +22,7 @@ public:
     void insert(const KeyType& key, const ValueType& value);
     void remove(const KeyType& key);
 	void print() const;
+    int getSize() const;
 };
 
 
@@ -73,6 +74,9 @@ void HashMapBucketList<KeyType, ValueType>::insert(const KeyType& key, const Val
 
 template <typename KeyType, typename ValueType>
 void HashMapBucketList<KeyType, ValueType>::remove(const KeyType& key) {
+	if (numOfElements == 0) {
+		throw std::out_of_range("HashMap is empty");
+	}
     int bucketIndex = static_cast<int>(hashFunction(key) % capacity);
     Node* node = table[bucketIndex];
     Node* prev = nullptr;
@@ -106,4 +110,8 @@ void HashMapBucketList<KeyType, ValueType>::print() const {
         }
         std::cout << std::endl;
     }
+}
+template <typename KeyType, typename ValueType>
+int HashMapBucketList<KeyType, ValueType>::getSize() const {
+    return numOfElements;
 }

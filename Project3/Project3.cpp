@@ -4,6 +4,7 @@
 #include <functional>
 #include "bucketListHM.hpp"
 #include "linearProbingHM.hpp"
+#include "hashAVL.hpp"
 
 
 long long measureTime(std::function<void()> func) {
@@ -23,38 +24,49 @@ void generateTestData(int* keys, int* values, int n, int seed = 42) {
 }
 
 template <typename HashTableType>
-void autoTestHashTable(const std::string& name, int initialCapacity = 100000) {
+void autoTestHashTable(const std::string& name, int initialCapacity) {
     std::cout << "--- Autotest HashTable: " << name << " ---\n";
     int sizes[] = { 5000, 100000, 200000, 300000, 400000, 500000 };
+    int repeatCount = 10;
 
     for (int size : sizes) {
         int* keys = new int[size];
         int* values = new int[size];
         generateTestData(keys, values, size);
 
-        HashTableType table(initialCapacity);
+        long long totalInsertTime = 0;
+        long long totalRemoveTime = 0;
 
-        long long insertTime = measureTime([&]() {
-            for (int i = 0; i < size; ++i) {
-                table.insert(keys[i], values[i]);
-            }
-            });
+        for (int r = 0; r < repeatCount; ++r) {
+            HashTableType table(initialCapacity);
 
-        long long removeTime = measureTime([&]() {
-            for (int i = 0; i < size / 2; ++i) {
-                table.remove(keys[i]);
-            }
-            });
+            long long insertTime = measureTime([&]() {
+                for (int i = 0; i < size; ++i) {
+                    table.insert(keys[i], values[i]);
+                }
+                });
+            totalInsertTime += insertTime;
+
+            long long removeTime = measureTime([&]() {
+                for (int i = 0; i < size / 2; ++i) {
+                    table.remove(keys[i]);
+                }
+                });
+            totalRemoveTime += removeTime;
+        }
 
         std::cout << "Rozmiar: " << size << std::endl;
-        std::cout << "Sredni czas wstawiania (na element): " << (insertTime / size) << " ns" << std::endl;
-        std::cout << "Sredni czas usuwania (na element): " << (removeTime / (size / 2)) << " ns" << std::endl;
+        std::cout << "Sredni czas wstawiania (na element): "
+            << (totalInsertTime / repeatCount / size) << " ns" << std::endl;
+        std::cout << "Sredni czas usuwania (na element): "
+            << (totalRemoveTime / repeatCount / (size / 2)) << " ns" << std::endl;
         std::cout << "---------------------------" << std::endl;
 
         delete[] keys;
         delete[] values;
     }
 }
+
 
 template <typename HashTableType>
 void hashTableMenu(const std::string& name, int initialCapacity = 100000) {
@@ -100,8 +112,8 @@ void mainMenu() {
     int choice = -1;
     while (choice != 4) {
         std::cout << "\nWybierz implementacje tablicy mieszajacej:\n";
-        std::cout << "1. bucketListHM\n";
-        std::cout << "2. linearProbingHM\n";
+        std::cout << "1. Separate Chaining HM\n";
+        std::cout << "2. Linear Probing HM\n";
         std::cout << "3. Autotest wszystkich implementacji\n";
         std::cout << "4. Wyjdz\n";
         std::cout << "Wybierz opcje: ";
@@ -117,6 +129,7 @@ void mainMenu() {
         case 3:
             autoTestHashTable<HashMapBucketList<int, int>>("Chain separating HM", 1000000);   
             autoTestHashTable<HashMapLinearProbing<int, int>>("Linear Probing HM", 100); 
+			autoTestHashTable<HashTable<int, int>>("Hash AVL", 1000000);
             break;
         case 4:
             std::cout << "Zakonczono program.\n";
