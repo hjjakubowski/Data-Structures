@@ -26,8 +26,6 @@ public:
     void print();
 };
 
-// Definicje metod
-
 template<typename K, typename V>
 int HashTable<K, V>::hash(const K& key) const {
     int h = static_cast<int>(key);

@@ -13,7 +13,7 @@ private:
     Node** table;
     int capacity;
     int numOfElements;
-    std::function<size_t(const KeyType&)> hashFunction;
+    int hashFunction(const KeyType&) const;
 
 public:
     HashMapBucketList(int cap = 100);
@@ -33,10 +33,7 @@ HashMapBucketList<KeyType, ValueType>::Node::Node(const KeyType& k, const ValueT
 
 
 template <typename KeyType, typename ValueType>
-HashMapBucketList<KeyType, ValueType>::HashMapBucketList(int cap)
-    : capacity(cap), numOfElements(0),
-    hashFunction([cap](const KeyType& key) { return static_cast<int>(key) % cap; })
-{
+HashMapBucketList<KeyType, ValueType>::HashMapBucketList(int cap): capacity(cap), numOfElements(0){
     table = new Node * [capacity];
     for (int i = 0; i < capacity; ++i)
         table[i] = nullptr;
@@ -56,8 +53,13 @@ HashMapBucketList<KeyType, ValueType>::~HashMapBucketList() {
 }
 
 template <typename KeyType, typename ValueType>
+int HashMapBucketList<KeyType, ValueType>::hashFunction(const KeyType& key) const
+{
+    return static_cast<int>(key) % capacity;
+}
+template <typename KeyType, typename ValueType>
 void HashMapBucketList<KeyType, ValueType>::insert(const KeyType& key, const ValueType& value) {
-    int bucketIndex = static_cast<int>(hashFunction(key) % capacity);
+	int bucketIndex = hashFunction(key);
     Node* node = table[bucketIndex];
     while (node) {
         if (node->key == key) {
@@ -77,7 +79,7 @@ void HashMapBucketList<KeyType, ValueType>::remove(const KeyType& key) {
 	if (numOfElements == 0) {
 		throw std::out_of_range("HashMap is empty");
 	}
-    int bucketIndex = static_cast<int>(hashFunction(key) % capacity);
+	int bucketIndex = hashFunction(key);
     Node* node = table[bucketIndex];
     Node* prev = nullptr;
     while (node) {

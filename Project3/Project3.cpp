@@ -26,7 +26,7 @@ void generateTestData(int* keys, int* values, int n, int seed = 42) {
 template <typename HashTableType>
 void autoTestHashTable(const std::string& name, int initialCapacity) {
     std::cout << "--- Autotest HashTable: " << name << " ---\n";
-    int sizes[] = { 5000, 100000, 200000, 300000, 400000, 500000 };
+    int sizes[] = { 5000, 100000, 200000, 300000, 400000, 500000, 1000000, 2500000,5000000};
     int repeatCount = 10;
 
     for (int size : sizes) {
@@ -105,7 +105,6 @@ void hashTableMenu(const std::string& name, int initialCapacity = 100000) {
     }
 }
 
-// Specjalizacja dla HashAVL (brak parametru pojemności)
 
 
 void mainMenu() {
